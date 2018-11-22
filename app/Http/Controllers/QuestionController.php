@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Question;
 use Illuminate\Support\Facades\Auth;
 
-
 class QuestionController extends Controller
 {
     public function __construct()
@@ -34,7 +33,6 @@ class QuestionController extends Controller
         $edit = FALSE;
         return view('questionForm', ['question' => $question,'edit' => $edit  ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -56,7 +54,6 @@ class QuestionController extends Controller
         return redirect()->route('home')->with('message', 'IT WORKS!');
         // return redirect()->route('questions.show', ['id' => $question->id]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -67,7 +64,6 @@ class QuestionController extends Controller
     {
         return view('question')->with('question', $question);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -79,7 +75,6 @@ class QuestionController extends Controller
         $edit = TRUE;
         return view('questionForm', ['question' => $question, 'edit' => $edit ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -97,17 +92,17 @@ class QuestionController extends Controller
         ]);
         $question->body = $request->body;
         $question->save();
-        return redirect()->route('question.show',['question_id' => $question->id])->with('message', 'Saved');
+        return redirect()->route('questions.show',['question_id' => $question->id])->with('message', 'Saved');
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect()->route('home')->with('message', 'Deleted');
     }
 }
